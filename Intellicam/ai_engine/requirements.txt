@@ -1,0 +1,5 @@
+flask
+ultralytics
+opencv-python
+requests
+numpy<2
