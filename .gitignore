@@ -11,6 +11,8 @@ fresh_env*/
 .venv/
 venv/
 
+.env*
+
 # Python
 __pycache__/
 *.pyc
