@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import uvicorn
 from config.database import connect_db, close_db
-from routers import users, alerts
+from routers import users, alerts, monitoring
 from routers.websocket_router import ws_router
 
 @asynccontextmanager
@@ -14,7 +14,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Intellicam Backend",
-    description="Security/Surveillance System API",
+    description="AI-powered surveillance backend",
     version="1.0.0",
     lifespan=lifespan
 )
@@ -33,6 +33,7 @@ async def root():
 
 app.include_router(users.router, prefix="/api/users", tags=["users"])
 app.include_router(alerts.router, prefix="/api/alerts", tags=["alerts"])
+app.include_router(monitoring.router, prefix="/api/monitoring", tags=["monitoring"])
 app.include_router(ws_router, prefix="/api/ws", tags=["websocket"])
 
 

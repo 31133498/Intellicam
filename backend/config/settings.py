@@ -12,8 +12,6 @@ class Settings(BaseSettings):
     smtp_port: int
     smtp_username: str
     smtp_password: str
-    client_url: str
-    staging_url: str
     ai_url: str
 
     model_config = {

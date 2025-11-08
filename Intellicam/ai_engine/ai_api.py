@@ -11,7 +11,7 @@ app = Flask(__name__)
 model = YOLO('yolov8n.pt')
 active_streams = {}
 
-def process_stream(stream_url, stream_id):
+def process_stream(stream_url, stream_id, user_id):
     """Process camera stream and send detections to backend"""
     cap = cv2.VideoCapture(stream_url)
     last_process_time = time.time()
@@ -38,7 +38,8 @@ def process_stream(stream_url, stream_id):
                     "object": class_name,
                     "confidence": round(conf, 2),
                     "timestamp": datetime.now().isoformat(),
-                    "stream_id": stream_id
+                    "stream_id": stream_id,
+                    "user_id": user_id
                 }
                 
                 # Send to backend
@@ -54,13 +55,14 @@ def start_detection():
     """Start detection on IP camera stream"""
     data = request.json
     stream_url = data.get('stream_url')
+    user_id = data.get('user_id')
     stream_id = data.get('stream_id', 'default')
     
     if stream_id in active_streams:
         return jsonify({"error": "Stream already active"}), 400
     
     active_streams[stream_id] = True
-    thread = threading.Thread(target=process_stream, args=(stream_url, stream_id))
+    thread = threading.Thread(target=process_stream, args=(stream_url, stream_id, user_id))
     thread.start()
     
     return jsonify({"status": "detection_started", "stream_id": stream_id})
