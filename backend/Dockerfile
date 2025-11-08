@@ -1,41 +1,25 @@
-# ================================
-# 1️⃣ Builder stage – build dependencies
-# ================================
-FROM python:3.11-slim AS builder
+# Use slim Python image
+FROM python:3.11-slim
 
-# Install build dependencies (removed OpenCV libs)
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# Install system dependencies required by cryptography and bcrypt
+RUN apt-get update && apt-get install -y \
     build-essential \
     libssl-dev \
     libffi-dev \
     && rm -rf /var/lib/apt/lists/*
 
+# Set working directory
 WORKDIR /app
 
-# Copy dependency list
-COPY requirements.txt .
+# Copy dependency list first (for Docker caching)
+COPY requirements.txt /app/
 
-# Upgrade pip & install dependencies into a local folder
-RUN pip install --upgrade pip setuptools wheel && \
-    pip install --no-cache-dir --prefer-binary -r requirements.txt -t /app/deps
+# Upgrade pip & install dependencies (use prebuilt wheels where possible)
+RUN pip install --upgrade pip setuptools wheel
+RUN pip install --no-cache-dir -r requirements.txt --prefer-binary
 
-
-# ================================
-# 2️⃣ Final stage – runtime image
-# ================================
-FROM python:3.11-slim
-
-# Install only minimal runtime libraries
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libssl-dev \
-    libffi-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /app
-
-# Copy only dependencies and your app code
-COPY --from=builder /app/deps /usr/local/lib/python3.11/site-packages
-COPY . .
+# Copy the rest of your code
+COPY . /app
 
 # Expose Render's port
 EXPOSE 10000
