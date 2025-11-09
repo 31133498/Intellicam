@@ -39,21 +39,38 @@ detection_response = api.model('DetectionResponse', {
 def process_stream(stream_url, stream_id):
     """Process camera stream and send detections to backend"""
     print(f"🎥 Starting stream processing for {stream_id} at {stream_url}")
+    
+    # Test connection first
+    try:
+        import requests
+        test_response = requests.head(stream_url, timeout=5)
+        print(f"📡 Stream URL test - Status: {test_response.status_code}")
+    except Exception as e:
+        print(f"⚠️ Stream URL not reachable via HTTP: {e}")
+    
     cap = cv2.VideoCapture(stream_url)
     
     if not cap.isOpened():
-        print(f"❌ Failed to connect to camera stream: {stream_url}")
+        print(f"❌ CRITICAL ERROR: Cannot connect to camera stream: {stream_url}")
+        print(f"❌ Possible causes: Local IP not accessible from cloud, stream offline, wrong URL")
+        if stream_id in active_streams:
+            del active_streams[stream_id]
         return
     
     print(f"✅ Successfully connected to camera: {stream_id}")
     last_process_time = time.time()
+    frame_count = 0
     
     while stream_id in active_streams:
         ret, frame = cap.read()
         if not ret:
-            print(f"Failed to read frame from {stream_id}")
+            print(f"❌ ERROR: Cannot read frame from {stream_id} - Stream may be disconnected")
             time.sleep(1)
             continue
+            
+        frame_count += 1
+        if frame_count % 30 == 0:  # Every 30 frames
+            print(f"📹 Stream {stream_id} active - processed {frame_count} frames")
             
         current_time = time.time()
         if current_time - last_process_time < 1:  # 1 FPS
@@ -90,13 +107,15 @@ def process_stream(stream_url, stream_id):
                             print(f"Failed to send alert: {e}")
             
             if not detections_found:
-                print(f"✅ Coast clear - {stream_id} - {datetime.now().strftime('%H:%M:%S')}")
+                print(f"✅ Coast clear - {stream_id} - {datetime.now().strftime('%H:%M:%S')} - Frame: {frame_count}")
                 
         except Exception as e:
             print(f"Detection error: {e}")
     
     cap.release()
-    print(f"Stream {stream_id} stopped")
+    print(f"🛑 Stream {stream_id} stopped - Total frames processed: {frame_count}")
+    if stream_id in active_streams:
+        del active_streams[stream_id]
 
 @api.route('/start_detection')
 class StartDetection(Resource):
