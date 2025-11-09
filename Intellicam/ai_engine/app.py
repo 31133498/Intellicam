@@ -38,7 +38,14 @@ detection_response = api.model('DetectionResponse', {
 
 def process_stream(stream_url, stream_id):
     """Process camera stream and send detections to backend"""
+    print(f"🎥 Starting stream processing for {stream_id} at {stream_url}")
     cap = cv2.VideoCapture(stream_url)
+    
+    if not cap.isOpened():
+        print(f"❌ Failed to connect to camera stream: {stream_url}")
+        return
+    
+    print(f"✅ Successfully connected to camera: {stream_id}")
     last_process_time = time.time()
     
     while stream_id in active_streams:
@@ -56,12 +63,14 @@ def process_stream(stream_url, stream_id):
         try:
             # Run detection
             results = model(frame, conf=DETECTION_THRESHOLD)[0]
+            detections_found = False
             
             for r in results.boxes.data.tolist():
                 x1, y1, x2, y2, conf, class_id = r
                 class_name = model.names[int(class_id)]
                 
                 if class_name in TARGET_CLASSES:
+                    detections_found = True
                     detection = {
                         "object": class_name,
                         "confidence": round(conf, 2),
@@ -69,7 +78,7 @@ def process_stream(stream_url, stream_id):
                         "stream_id": stream_id
                     }
                     
-                    print(f"Detection: {detection}")
+                    print(f"🚨 THREAT DETECTED: {detection}")
                     
                     # Send to backend if URL is configured via environment variable
                     backend_url = os.environ.get('BACKEND_URL')
@@ -79,6 +88,10 @@ def process_stream(stream_url, stream_id):
                             print(f"Alert sent to backend: {backend_url}")
                         except Exception as e:
                             print(f"Failed to send alert: {e}")
+            
+            if not detections_found:
+                print(f"✅ Coast clear - {stream_id} - {datetime.now().strftime('%H:%M:%S')}")
+                
         except Exception as e:
             print(f"Detection error: {e}")
     
