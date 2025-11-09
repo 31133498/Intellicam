@@ -15,7 +15,7 @@ DEFAULT_CAMERA_WIDTH = 640
 DEFAULT_CAMERA_HEIGHT = 480
 
 # Backend settings
-BACKEND_URL = "http://localhost:5000/api/alert"
+BACKEND_URL = "http://localhost:5000/api/alerts"
 
 # Motion detection settings
 MOTION_THRESHOLD = 5000  # Minimum contour area for motion detection
