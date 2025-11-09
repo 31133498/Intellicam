@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_restx import Api, Resource, fields
+from flask_cors import CORS
 from ultralytics import YOLO
 import cv2
 import threading
@@ -7,9 +8,10 @@ import time
 from datetime import datetime
 import requests
 import os
-from config import DETECTION_THRESHOLD, TARGET_CLASSES, BACKEND_URL
+from config import DETECTION_THRESHOLD, TARGET_CLASSES
 
 app = Flask(__name__)
+CORS(app)  # Allow all origins
 api = Api(app, version='1.0', title='Intellicam AI Engine API',
           description='YOLOv8 Object Detection API for Smart Surveillance')
 
@@ -69,10 +71,12 @@ def process_stream(stream_url, stream_id):
                     
                     print(f"Detection: {detection}")
                     
-                    # Send to backend if URL is configured
-                    if BACKEND_URL and BACKEND_URL != "http://localhost:5000/api/alert":
+                    # Send to backend if URL is configured via environment variable
+                    backend_url = os.environ.get('BACKEND_URL')
+                    if backend_url:
                         try:
-                            requests.post(BACKEND_URL, json=detection, timeout=3)
+                            requests.post(backend_url, json=detection, timeout=3)
+                            print(f"Alert sent to backend: {backend_url}")
                         except Exception as e:
                             print(f"Failed to send alert: {e}")
         except Exception as e:
