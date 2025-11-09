@@ -1,5 +1,8 @@
 flask
+flask-restx
 ultralytics
-opencv-python
+opencv-python-headless
 requests
 numpy<2
+torch
+torchvision

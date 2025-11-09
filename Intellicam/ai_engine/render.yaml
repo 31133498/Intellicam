@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: intellicam-ai-engine
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: BACKEND_URL
+        value: https://your-backend-url.com/api/alert
