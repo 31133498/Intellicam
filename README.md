@@ -1,7 +1,7 @@
 # INTELLICAM - AI-Powered Smart Surveillance System
 **"Your Camera Just Got Intelligent"**
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Available-brightgreen)](https://intellicam.vercel.app)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Available-brightgreen)](https://intellicam-frontend.vercel.app)
 [![AI Engine](https://img.shields.io/badge/AI%20Engine-Deployed-blue)](https://intellicam-ai-engine.onrender.com)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -42,7 +42,7 @@ INTELLICAM transforms any IP camera into an **intelligent threat detection syste
 [**Watch 3-minute Demo**](https://www.youtube.com/watch?v=diiAINb0Fq0) - See INTELLICAM detect threats in real-time
 
 ## 🚀 Live Application
-- **Frontend**: [https://intellicam.vercel.app](https://intellicam.vercel.app)
+- **Frontend**: [https://intellicam-frontend.vercel.app](https://intellicam-frontend.vercel.app)
 - **AI Engine**: [https://intellicam-ai-engine.onrender.com](https://intellicam-ai-engine.onrender.com)
 
 ## 👥 Target Users
@@ -188,7 +188,7 @@ INTELLICAM transforms any IP camera into an **intelligent threat detection syste
 ## 🚀 Getting Started
 
 ### **Quick Demo**
-1. Visit [https://intellicam.vercel.app](https://intellicam.vercel.app)
+1. Visit [https://intellicam-frontend.vercel.app](https://intellicam-frontend.vercel.app)
 2. Login with demo credentials
 3. Start monitoring with your webcam
 4. Hold up objects to see real-time AI detection
@@ -271,7 +271,7 @@ npm start
 
 - **Team Lead**: Sanni Shazily - sannishazily@gmail.com
 - **LinkedIn**: [linkedin.com/in/sanni-shazily-bba942266](https://www.linkedin.com/in/sanni-shazily-bba942266)
-- **Live Demo**: [https://intellicam.vercel.app](https://intellicam.vercel.app)
+- **Live Demo**: [https://intellicam-frontend.vercel.app](https://intellicam-frontend.vercel.app)
 - **Investment Deck**: Available upon request
 
 ---
