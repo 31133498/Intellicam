@@ -201,7 +201,7 @@ git clone https://github.com/31133498/Intellicam.git
 cd Intellicam
 
 # Start AI Engine
-cd Intellicam/ai_engine
+cd ai_engine
 pip install -r requirements.txt
 python local_ai.py
 
