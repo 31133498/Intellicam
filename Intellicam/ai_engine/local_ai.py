@@ -8,7 +8,7 @@ from datetime import datetime
 import os
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:3000", "https://intellicam.vercel.app", "https://*.vercel.app"])
+CORS(app, origins="*")
 
 # Load YOLOv8 model locally
 try:
