@@ -1,29 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    /* These colors create our "Mission Control" theme */
-    --background: 222 84% 4.9%; /* bg-gray-900 */
-    --foreground: 210 40% 98%; /* white */
-
-    --card: 222 84% 9%; /* bg-gray-800 */
+    /* Premium Design System Colors */
+    --background: 222 84% 4.9%;
+    --foreground: 210 40% 98%;
+    
+    --card: 222 84% 9%;
     --card-foreground: 210 40% 98%;
-
-    --primary: 217 91% 60.2%; /* blue-500 */
+    
+    --primary: 217 91% 60.2%;
     --primary-foreground: 210 40% 98%;
-
+    
     --secondary: 217 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
-
-    --destructive: 0 84.2% 60.2%; /* red-600 */
-
+    
+    --accent: 142 76% 36%;
+    --accent-foreground: 210 40% 98%;
+    
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --warning: 38 92% 50%;
+    --warning-foreground: 222 84% 4.9%;
+    
+    --success: 142 76% 36%;
+    --success-foreground: 210 40% 98%;
+    
     --border: 217 32.6% 17.5%;
     --input: 217 32.6% 17.5%;
     --ring: 217 91% 60.2%;
-
-    --radius: 0.5rem;
+    
+    --radius: 0.75rem;
+    --shadow-color: 222 84% 4.9%;
   }
 }
 
@@ -31,16 +43,163 @@
   * {
     @apply border-border;
   }
+  
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  }
+  
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
   }
 }
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer components {
+  /* Premium Button Variants */
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-xl px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98];
+  }
+  
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-xl px-6 py-3 text-sm font-semibold text-slate-300 bg-slate-800/50 border border-slate-700/50 hover:bg-slate-700/50 hover:text-white focus:outline-none focus:ring-2 focus:ring-slate-500/50 transition-all duration-200 backdrop-blur-sm;
+  }
+  
+  .btn-ghost {
+    @apply inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-slate-500/50 transition-all duration-200;
+  }
+  
+  .btn-danger {
+    @apply inline-flex items-center justify-center rounded-xl px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98];
+  }
+  
+  /* Premium Card Styles */
+  .card {
+    @apply bg-slate-800/30 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl shadow-slate-900/20;
+  }
+  
+  .card-hover {
+    @apply card hover:bg-slate-800/40 hover:border-slate-600/50 hover:shadow-3xl hover:shadow-slate-900/30 transition-all duration-300 transform hover:scale-[1.01];
+  }
+  
+  /* Premium Input Styles */
+  .input-primary {
+    @apply w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200 backdrop-blur-sm;
+  }
+  
+  /* Glass Effect */
+  .glass {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  }
+  
+  .glass-dark {
+    @apply bg-slate-900/20 backdrop-blur-xl border border-slate-700/30;
+  }
+  
+  /* Status Indicators */
+  .status-online {
+    @apply w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50;
+  }
+  
+  .status-offline {
+    @apply w-3 h-3 bg-slate-500 rounded-full;
+  }
+  
+  .status-warning {
+    @apply w-3 h-3 bg-yellow-400 rounded-full animate-pulse shadow-lg shadow-yellow-400/50;
+  }
+  
+  .status-danger {
+    @apply w-3 h-3 bg-red-400 rounded-full animate-pulse shadow-lg shadow-red-400/50;
+  }
+  
+  /* Loading Animation */
+  .loading-dots {
+    @apply inline-flex space-x-1;
+  }
+  
+  .loading-dots > div {
+    @apply w-2 h-2 bg-blue-400 rounded-full animate-pulse;
+  }
+  
+  .loading-dots > div:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  
+  .loading-dots > div:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+  
+  /* Gradient Text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-blue-400 via-purple-400 to-blue-600 bg-clip-text text-transparent;
+  }
+  
+  /* Premium Shadows */
+  .shadow-premium {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+  
+  .shadow-glow {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+}
+
+/* Custom Animations */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+  }
+}
+
+.animate-slide-in-up {
+  animation: slideInUp 0.5s ease-out;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-900/50;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-600/50 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-500/70;
 }
