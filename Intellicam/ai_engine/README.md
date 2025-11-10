@@ -60,3 +60,8 @@ pip install ultralytics opencv-python flask flask-cors pillow
 
 ## 📊 Model
 Uses YOLOv8n model (`yolov8n.pt`) for fast, accurate detection.
+
+## 🔄 Latest Updates
+- Enhanced detection performance
+- Improved threat classification
+- Updated API responses
