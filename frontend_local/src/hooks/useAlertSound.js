@@ -22,5 +22,16 @@ export const useAlertSound = () => {
     }
   };
 
-  return { playAlert };
+  const stopAlert = () => {
+    try {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+    } catch (error) {
+      console.error('Stop alert sound failed:', error);
+    }
+  };
+
+  return { playAlert, stopAlert };
 };

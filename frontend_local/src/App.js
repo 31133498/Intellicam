@@ -8,6 +8,7 @@ import Dashboard from './components/Dashboard';
 import TestAI from './pages/TestAI';
 import Demo from './pages/Demo';
 import AICopilot from './pages/AICopilot';
+import Settings from './pages/Settings';
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -44,6 +45,14 @@ function App() {
             <Route path="/test-ai" element={<TestAI />} />
             <Route path="/demo" element={<Demo />} />
             <Route path="/ai-copilot" element={<AICopilot />} />
+            <Route
+              path="/settings"
+              element={
+                <ProtectedRoute>
+                  <Settings />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </div>
       </Router>

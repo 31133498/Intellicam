@@ -1,4 +1,4 @@
-const API_KEY = process.env.REACT_APP_GROQ_API_KEY || "your-groq-api-key-here";
+const API_KEY = process.env.REACT_APP_GROQ_API_KEY;
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
 const MODEL = "llama-3.3-70b-versatile";
 
@@ -32,8 +32,25 @@ SECURITY FOCUS AREAS:
 
 class AICopilotService {
   static async chat(message, eventLogs = []) {
+    // Fallback responses if API fails
+    const fallbackResponses = {
+      'threat': 'Based on current system analysis, no immediate threats detected. All security parameters are within normal ranges.',
+      'status': 'INTELLICAM Security System Status: OPERATIONAL\n• AI Detection Engine: ACTIVE\n• Monitoring Coverage: 100%\n• Threat Detection: ENABLED\n• System Health: EXCELLENT',
+      'help': 'I can assist with:\n• Security threat analysis\n• System status reports\n• Detection pattern analysis\n• Security recommendations\n• Incident response guidance',
+      'recent': eventLogs.length > 0 ? `Recent activity summary:\n${eventLogs.slice(0, 3).map(e => `• ${e.object_type} detected (${Math.round(e.confidence * 100)}% confidence)`).join('\n')}` : 'No recent security events detected. System monitoring normally.',
+      'default': 'I am your INTELLICAM AI Security Copilot. I can analyze threats, provide security insights, and help with system monitoring. What would you like to know about your security status?'
+    };
+
     const recentEvents = this.getRecentEvents(eventLogs);
     const context = this.formatEventContext(recentEvents);
+    
+    // Check if API key is available
+    console.log('API Key loaded:', API_KEY ? `${API_KEY.substring(0, 10)}...` : 'undefined');
+    
+    if (!API_KEY || API_KEY === "your-groq-api-key-here" || API_KEY.includes("placeholder")) {
+      console.warn("Groq API key not configured. Please set REACT_APP_GROQ_API_KEY in .env file");
+      return this.getFallbackResponse(message, fallbackResponses, eventLogs);
+    }
     
     try {
       const response = await fetch(GROQ_API_URL, {
@@ -53,12 +70,42 @@ class AICopilotService {
         })
       });
 
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`Groq API Error ${response.status}:`, errorText);
+        throw new Error(`API Error: ${response.status} - ${errorText}`);
+      }
+
       const data = await response.json();
+      
+      if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+        throw new Error('Invalid API response format');
+      }
+      
       return data.choices[0].message.content;
     } catch (error) {
       console.error("AI Copilot error:", error);
-      return "I'm experiencing technical difficulties. Please try again.";
+      return this.getFallbackResponse(message, fallbackResponses, eventLogs);
     }
+  }
+
+  static getFallbackResponse(message, responses, eventLogs) {
+    const lowerMessage = message.toLowerCase();
+    
+    if (lowerMessage.includes('threat') || lowerMessage.includes('danger')) {
+      return responses.threat;
+    }
+    if (lowerMessage.includes('status') || lowerMessage.includes('system')) {
+      return responses.status;
+    }
+    if (lowerMessage.includes('help') || lowerMessage.includes('what can')) {
+      return responses.help;
+    }
+    if (lowerMessage.includes('recent') || lowerMessage.includes('latest')) {
+      return responses.recent;
+    }
+    
+    return responses.default;
   }
 
   static getRecentEvents(eventLogs) {

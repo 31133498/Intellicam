@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Brain, Shield, Smartphone, Zap, Eye, AlertTriangle, Camera, Clock, CheckCircle, ArrowRight, Play } from 'lucide-react';
+import { Brain, Shield, Smartphone, Eye, Camera, CheckCircle, ArrowRight, Play } from 'lucide-react';
 
 function Landing() {
   const navigate = useNavigate();

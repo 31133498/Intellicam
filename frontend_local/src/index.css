@@ -58,33 +58,33 @@
 @layer components {
   /* Premium Button Variants */
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-xl px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98];
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors;
   }
   
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-xl px-6 py-3 text-sm font-semibold text-slate-300 bg-slate-800/50 border border-slate-700/50 hover:bg-slate-700/50 hover:text-white focus:outline-none focus:ring-2 focus:ring-slate-500/50 transition-all duration-200 backdrop-blur-sm;
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-white bg-slate-700 hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-500 transition-colors;
   }
   
   .btn-ghost {
-    @apply inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-slate-500/50 transition-all duration-200;
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-700 border border-slate-600 hover:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500 transition-colors;
   }
   
   .btn-danger {
-    @apply inline-flex items-center justify-center rounded-xl px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98];
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors;
   }
   
   /* Premium Card Styles */
   .card {
-    @apply bg-slate-800/30 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl shadow-slate-900/20;
+    @apply bg-slate-800 border border-slate-700 rounded-lg shadow-lg;
   }
   
   .card-hover {
-    @apply card hover:bg-slate-800/40 hover:border-slate-600/50 hover:shadow-3xl hover:shadow-slate-900/30 transition-all duration-300 transform hover:scale-[1.01];
+    @apply bg-slate-800 border border-slate-700 rounded-lg shadow-lg hover:shadow-xl hover:border-slate-600 transition-all duration-200;
   }
   
   /* Premium Input Styles */
   .input-primary {
-    @apply w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200 backdrop-blur-sm;
+    @apply w-full px-4 py-2 bg-slate-600 border border-slate-500 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors;
   }
   
   /* Glass Effect */
@@ -93,7 +93,7 @@
   }
   
   .glass-dark {
-    @apply bg-slate-900/20 backdrop-blur-xl border border-slate-700/30;
+    @apply bg-slate-700 border border-slate-600;
   }
   
   /* Status Indicators */

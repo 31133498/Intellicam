@@ -20,7 +20,7 @@ function LiveFeed({ streamUrl, isMonitoring, onDetection }) {
     }
 
     return () => stopWebcam();
-  }, [isMonitoring, streamUrl]);
+  }, [isMonitoring, streamUrl]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const startWebcam = async () => {
     try {

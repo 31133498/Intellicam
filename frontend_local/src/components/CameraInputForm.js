@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import apiService from '../services/api';
-import { useAuth } from '../contexts/AuthContext';
 
 function CameraInputForm({ isMonitoring, onStart, onStop }) {
   const [cameraUrl, setCameraUrl] = useState('http://10.162.218.193:8080/video');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [streamId, setStreamId] = useState(null);
   const [cameraMode, setCameraMode] = useState('webcam'); // 'webcam' or 'ip'
-  const { user } = useAuth();
 
   const handleStart = async () => {
     setLoading(true);
@@ -20,8 +16,6 @@ function CameraInputForm({ isMonitoring, onStart, onStop }) {
       } else {
         onStart(cameraUrl);
       }
-      setStreamId(`stream_${Date.now()}`);
-
     } catch (err) {
       const errorMsg = err.response?.data?.detail || err.message || 'Failed to start monitoring';
       setError(errorMsg);
@@ -36,7 +30,6 @@ function CameraInputForm({ isMonitoring, onStart, onStop }) {
     setError('');
 
     try {
-      setStreamId(null);
       onStop();
     } catch (err) {
       const errorMsg = err.response?.data?.detail || err.message || 'Failed to stop monitoring';

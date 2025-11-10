@@ -6,7 +6,7 @@ import { useAlertSound } from '../hooks/useAlertSound';
 
 function TestAI() {
   const [result, setResult] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   const [isMonitoring, setIsMonitoring] = useState(false);
   const [detectionHistory, setDetectionHistory] = useState([]);
   const videoRef = useRef(null);
