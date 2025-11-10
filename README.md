@@ -259,12 +259,6 @@ npm start
 - IoT sensor integration
 - Enterprise SSO and compliance features
 
-## 🏆 Awards & Recognition
-
-- **WUD Africa 2025 Hackathon** - Finalist
-- **Innovation in AI Security** - Pending
-- **Best Technical Implementation** - Pending
-
 ## 📞 Contact & Investment
 
 **Ready to revolutionize security with AI?**
