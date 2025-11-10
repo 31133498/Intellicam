@@ -8,7 +8,7 @@ from datetime import datetime
 import os
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:3000"])
+CORS(app, origins=["http://localhost:3000", "https://intellicam.vercel.app", "https://*.vercel.app"])
 
 # Load YOLOv8 model locally
 try:
@@ -115,4 +115,5 @@ if __name__ == '__main__':
         print(f"All classes: {', '.join(all_classes)}")
     print(f"Detection threshold: {DETECTION_THRESHOLD}")
     print("AI Engine running on http://localhost:5001")
-    app.run(host='localhost', port=5001, debug=False)
+    port = int(os.environ.get('PORT', 5001))
+    app.run(host='0.0.0.0', port=port, debug=False)

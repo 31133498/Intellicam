@@ -1,5 +1,5 @@
 // AI Engine service for direct detection
-const AI_ENGINE_URL = 'http://localhost:5001';
+const AI_ENGINE_URL = process.env.REACT_APP_AI_ENGINE_URL || 'https://intellicam-ai-engine.onrender.com';
 
 class AIService {
   async detectFrame(imageData, sessionId = 'demo_session') {
@@ -10,7 +10,8 @@ class AIService {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          image: imageData
+          image: imageData,
+          session_id: sessionId
         })
       });
 
