@@ -51,6 +51,7 @@ function Chatbot({ alerts = [] }) {
     }
   };
 
+  // eslint-disable-next-line no-unused-vars
   const generateResponse = (query, alertsData) => {
     const lowerQuery = query.toLowerCase();
     const safeAlerts = Array.isArray(alertsData) ? alertsData : [];

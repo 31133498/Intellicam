@@ -11,7 +11,7 @@ function AlertPopup({ alert, onClose }) {
 
   if (!alert) return null;
 
-  const isHighThreat = ['knife', 'gun', 'scissors'].includes(alert.object_type);
+  // const isHighThreat = ['knife', 'gun', 'scissors'].includes(alert.object_type);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-fade-in">
