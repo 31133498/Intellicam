@@ -1,0 +1,10 @@
+# Dependencies
+/node_modules
+
+# Build output
+/build
+/dist
+
+# Env variables
+.env
+.env.local

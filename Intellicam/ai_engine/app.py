@@ -8,6 +8,8 @@ import time
 from datetime import datetime
 import requests
 import os
+import base64
+import numpy as np
 from config import DETECTION_THRESHOLD, TARGET_CLASSES
 
 app = Flask(__name__)
@@ -29,6 +31,11 @@ stop_detection_model = api.model('StopDetection', {
     'stream_id': fields.String(required=True, description='Stream ID to stop', example='camera_1')
 })
 
+frame_detection_model = api.model('FrameDetection', {
+    'image_data': fields.String(required=True, description='Base64 encoded image frame'),
+    'session_id': fields.String(required=False, description='Session identifier', example='demo_session')
+})
+
 detection_response = api.model('DetectionResponse', {
     'object': fields.String(description='Detected object name'),
     'confidence': fields.Float(description='Detection confidence score'),
@@ -38,39 +45,39 @@ detection_response = api.model('DetectionResponse', {
 
 def process_stream(stream_url, stream_id):
     """Process camera stream and send detections to backend"""
-    print(f"🎥 Starting stream processing for {stream_id} at {stream_url}")
+    print(f"Starting stream processing for {stream_id} at {stream_url}")
     
     # Test connection first
     try:
         import requests
         test_response = requests.head(stream_url, timeout=5)
-        print(f"📡 Stream URL test - Status: {test_response.status_code}")
+        print(f"Stream URL test - Status: {test_response.status_code}")
     except Exception as e:
-        print(f"⚠️ Stream URL not reachable via HTTP: {e}")
+        print(f"WARNING: Stream URL not reachable via HTTP: {e}")
     
     cap = cv2.VideoCapture(stream_url)
     
     if not cap.isOpened():
-        print(f"❌ CRITICAL ERROR: Cannot connect to camera stream: {stream_url}")
-        print(f"❌ Possible causes: Local IP not accessible from cloud, stream offline, wrong URL")
+        print(f"ERROR: Cannot connect to camera stream: {stream_url}")
+        print(f"Possible causes: Local IP not accessible from cloud, stream offline, wrong URL")
         if stream_id in active_streams:
             del active_streams[stream_id]
         return
     
-    print(f"✅ Successfully connected to camera: {stream_id}")
+    print(f"Successfully connected to camera: {stream_id}")
     last_process_time = time.time()
     frame_count = 0
     
     while stream_id in active_streams:
         ret, frame = cap.read()
         if not ret:
-            print(f"❌ ERROR: Cannot read frame from {stream_id} - Stream may be disconnected")
+            print(f"ERROR: Cannot read frame from {stream_id} - Stream may be disconnected")
             time.sleep(1)
             continue
             
         frame_count += 1
         if frame_count % 30 == 0:  # Every 30 frames
-            print(f"📹 Stream {stream_id} active - processed {frame_count} frames")
+            print(f"Stream {stream_id} active - processed {frame_count} frames")
             
         current_time = time.time()
         if current_time - last_process_time < 1:  # 1 FPS
@@ -95,7 +102,7 @@ def process_stream(stream_url, stream_id):
                         "stream_id": stream_id
                     }
                     
-                    print(f"🚨 THREAT DETECTED: {detection}")
+                    print(f"THREAT DETECTED: {detection}")
                     
                     # Send to backend if URL is configured via environment variable
                     backend_url = os.environ.get('BACKEND_URL')
@@ -107,13 +114,13 @@ def process_stream(stream_url, stream_id):
                             print(f"Failed to send alert: {e}")
             
             if not detections_found:
-                print(f"✅ Coast clear - {stream_id} - {datetime.now().strftime('%H:%M:%S')} - Frame: {frame_count}")
+                print(f"Coast clear - {stream_id} - {datetime.now().strftime('%H:%M:%S')} - Frame: {frame_count}")
                 
         except Exception as e:
             print(f"Detection error: {e}")
     
     cap.release()
-    print(f"🛑 Stream {stream_id} stopped - Total frames processed: {frame_count}")
+    print(f"Stream {stream_id} stopped - Total frames processed: {frame_count}")
     if stream_id in active_streams:
         del active_streams[stream_id]
 
@@ -186,6 +193,69 @@ class ActiveStreams(Resource):
             "stream_ids": list(active_streams.keys())
         }
 
+@api.route('/detect_frame')
+class DetectFrame(Resource):
+    @api.expect(frame_detection_model)
+    @api.doc('detect_frame')
+    def post(self):
+        """Process single frame for object detection"""
+        try:
+            data = request.json
+            image_data = data.get('image_data')
+            session_id = data.get('session_id', 'demo_session')
+            
+            if not image_data:
+                return {"error": "image_data is required"}, 400
+            
+            # Decode base64 image
+            try:
+                # Remove data URL prefix if present
+                if 'data:image' in image_data:
+                    image_data = image_data.split(',')[1]
+                
+                # Decode base64 to numpy array
+                img_bytes = base64.b64decode(image_data)
+                nparr = np.frombuffer(img_bytes, np.uint8)
+                frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+                
+                if frame is None:
+                    return {"error": "Invalid image data"}, 400
+                    
+            except Exception as e:
+                return {"error": f"Failed to decode image: {str(e)}"}, 400
+            
+            # Run detection
+            results = model(frame, conf=DETECTION_THRESHOLD)[0]
+            detections = []
+            
+            for r in results.boxes.data.tolist():
+                x1, y1, x2, y2, conf, class_id = r
+                class_name = model.names[int(class_id)]
+                
+                if class_name in TARGET_CLASSES:
+                    detection = {
+                        "object": class_name,
+                        "confidence": round(conf, 2),
+                        "timestamp": datetime.now().isoformat(),
+                        "session_id": session_id,
+                        "bbox": [int(x1), int(y1), int(x2), int(y2)]
+                    }
+                    detections.append(detection)
+            
+            return {
+                "status": "success",
+                "detections": detections,
+                "total_objects": len(results.boxes.data),
+                "threats_found": len(detections)
+            }
+            
+        except Exception as e:
+            print(f"Detection error: {e}")
+            return {"error": f"Detection failed: {str(e)}"}, 500
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8000))
+    print(f"AI Engine starting on port {port}")
+    print(f"Target classes: {list(TARGET_CLASSES)}")
+    print(f"Detection threshold: {DETECTION_THRESHOLD}")
     app.run(host='0.0.0.0', port=port, debug=False)
