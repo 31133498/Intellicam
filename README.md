@@ -39,7 +39,7 @@ INTELLICAM transforms any IP camera into an **intelligent threat detection syste
 - **Scalable architecture** supporting unlimited cameras
 
 ## 🎬 Demo Video
-[**Watch 3-minute Demo**](https://your-demo-video-link.com) - See INTELLICAM detect threats in real-time
+[**Watch 3-minute Demo**](https://www.youtube.com/watch?v=diiAINb0Fq0) - See INTELLICAM detect threats in real-time
 
 ## 🚀 Live Application
 - **Frontend**: [https://intellicam.vercel.app](https://intellicam.vercel.app)
@@ -213,11 +213,34 @@ npm start
 
 ## 🏅 Team & Expertise
 
-**[Your Team Information - Please Provide]**
-- **Team Lead**: [Name] - [Role] - [LinkedIn]
-- **AI Engineer**: [Name] - [Expertise] - [LinkedIn] 
-- **Frontend Developer**: [Name] - [Skills] - [LinkedIn]
-- **Backend Developer**: [Name] - [Experience] - [LinkedIn]
+### **Sanni Shazily** - AI Engineer & Team Lead
+- **Role**: AI/ML Engineer, Project Lead
+- **LinkedIn**: [www.linkedin.com/in/sanni-shazily-bba942266](https://www.linkedin.com/in/sanni-shazily-bba942266)
+- **Email**: sannishazily@gmail.com
+- **Expertise**: 3x Hackathon Winner specializing in AI, Machine Learning, and Data Science. Currently studying at University of Lagos with certifications in Artificial Intelligence Essentials. Creator of Zlearn educational platform and passionate about leveraging AI for real-world solutions.
+
+### **Lasisi Quadri** - Frontend Engineer
+- **Role**: Full-Stack Developer (Frontend Focus)
+- **LinkedIn**: [linkedin.com/in/quadri-lasisi-a720b9359](https://www.linkedin.com/in/quadri-lasisi-a720b9359)
+- **Email**: qlasisi15@gmail.com | **Phone**: 09025713730
+- **Expertise**: 6 years of development experience with JavaScript, Python, FastAPI, React.js, Next.js, TypeScript. 4x Hackathon Winner including NASA Space Apps Challenge, The 234project Hackathon, and AWS Cloud Security Hackathon.
+
+### **Wisdom Ofogba** - Backend Developer
+- **Role**: Backend Engineer
+- **LinkedIn**: [linkedin.com/in/wisdom-ofogba](https://www.linkedin.com/in/wisdom-ofogba)
+- **Email**: wisetega007@gmail.com | **WhatsApp**: +2348163657363
+- **Expertise**: 3+ years in React & Next.js frontend development, 3 years Node.js, Express, FastAPI, MongoDB, and PostgreSQL backend development. Winner of 2 major hackathons: The 234project Hackathon and Avzdax Hackathon.
+
+### **Oreoluwa Lasisi** - Project Manager
+- **Role**: Project Manager & Developer
+- **LinkedIn**: [linkedin.com/in/oreoluwalasisi](https://www.linkedin.com/in/oreoluwalasisi)
+- **Expertise**: Early career project manager experienced in organizing technical teams, structuring workflows, and shipping functional prototypes for hackathons. Building skills in frontend UI, C fundamentals, and AI-driven product prototyping.
+
+### **Precious Feyisayo Adesina** - Data Analyst
+- **Role**: Data Analyst & Frontend Developer
+- **LinkedIn**: [linkedin.com/in/adesina-feyisayo-1b1262368](https://www.linkedin.com/in/adesina-feyisayo-1b1262368)
+- **Email**: adesinaprecious46@gmail.com | **WhatsApp**: +2349150719515
+- **Expertise**: Data Analyst with frontend development and content creation skills. Completed internship in the legal department of Wema Bank Plc and currently interning at Long Empowerment Organization. Specializes in data analysis, frontend development, and content strategy.
 
 ## 📈 Future Roadmap
 
@@ -246,10 +269,10 @@ npm start
 
 **Ready to revolutionize security with AI?**
 
-- **Email**: [your-email@domain.com]
-- **LinkedIn**: [Your LinkedIn Profile]
-- **Demo**: [Schedule a personalized demo]
-- **Investment Deck**: [Available upon request]
+- **Team Lead**: Sanni Shazily - sannishazily@gmail.com
+- **LinkedIn**: [linkedin.com/in/sanni-shazily-bba942266](https://www.linkedin.com/in/sanni-shazily-bba942266)
+- **Live Demo**: [https://intellicam.vercel.app](https://intellicam.vercel.app)
+- **Investment Deck**: Available upon request
 
 ---
 
