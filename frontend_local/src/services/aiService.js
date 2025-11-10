@@ -4,13 +4,13 @@ const AI_ENGINE_URL = 'https://intellicam-ai-engine.onrender.com';
 class AIService {
   async detectFrame(imageData, sessionId = 'demo_session') {
     try {
-      const response = await fetch(`${AI_ENGINE_URL}/detect`, {
+      const response = await fetch(`${AI_ENGINE_URL}/detect_frame`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          image: imageData,
+          image_data: imageData,
           session_id: sessionId
         })
       });
